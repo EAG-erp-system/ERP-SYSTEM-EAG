@@ -20,7 +20,6 @@ function SidebarContent() {
     return (
         <>
             <div>
-                
             </div>
         </>
     )

@@ -37,13 +37,23 @@ function DashboardSideBar() {
                 </button>
 
                 <div className="hidden md:block">
-                    <sidebarContent />
+                    <sidebarContent 
+                        isMobileOpen={isMobileOpen}
+                        setIsMobileOpen={setIsMobileOpen}
+                        theme={theme}
+                        themeToggle={toggleTheme}
+                    />
                 </div>
 
                 <div className={`h-full max-w-[86vw] transition-transform duration-300 ease-out ${
                     isMobileOpen ? "translate-x-0" : "-translate-x-full"
                 }`}>
-                    <sidebarContent />
+                    <sidebarContent 
+                        isMobileOpen={isMobileOpen}
+                        setIsMobileOpen={setIsMobileOpen}
+                        theme={theme}
+                        themeToggle={toggleTheme}
+                        />
                 </div>
 
                 <button
