@@ -2,8 +2,14 @@
 import { useTheme } from "../context/ThemeContext.jsx";
 import { Sun, Moon } from "lucide-react";
 
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { PanelLeftOpen, PanelLeftClose } from "lucide-react";
+
 function DashboardSideBar() {
     const { theme, toggleTheme } = useTheme();
+
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
     return (
         <>
             <div className="min-h-screen bg-[#f4f7fa] dark:bg-[#060b14] text-ink-900 dark:text-slate-100 transition-colors duration-300">
@@ -18,6 +24,14 @@ function DashboardSideBar() {
                     ) : (
                         <Moon size={18} className="text-brand-500" />
                     )}
+                </button>
+
+                <button 
+                    type="button"
+                    onClick={() => setIsMobileOpen(true)}
+                    className="fixed left-4 top-4 cursor-pointer w-10 h-10 flex items-center justify-center rounded-xl border dark:border-white/10 border-slate-200 bg-white dark:bg-slate-800/80 text-ink-700 dark:text-slate-300 outline-none shadow-lg md:hidden"
+                >
+                    <PanelLeftOpen size={20} />
                 </button>
             </div>
         </>
