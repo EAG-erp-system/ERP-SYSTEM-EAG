@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const ThemeContext = createContext();
 
-export function ThemeProvider({ children }) {
+export function ThemeProvider({ children }) { // children prop is used to wrap the components that will have access to the theme context
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -12,7 +12,7 @@ export function ThemeProvider({ children }) {
   });
 
   useEffect(() => {
-    const root = document.documentElement;
+    const root = document.documentElement; // Get the root element like <html> to apply the theme class
     if (theme === 'dark') {
       root.classList.add('dark');
     } else {
