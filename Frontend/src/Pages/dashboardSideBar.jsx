@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PanelLeftOpen, PanelLeftClose } from "lucide-react";
 
+import sidebarContent from "../components/SidebarContent.jsx";
+
 function DashboardSideBar() {
     const { theme, toggleTheme } = useTheme();
 
@@ -33,6 +35,23 @@ function DashboardSideBar() {
                 >
                     <PanelLeftOpen size={20} />
                 </button>
+
+                <div className="hidden md:block">
+                    <sidebarContent />
+                </div>
+
+                <div className={`h-full max-w-[86vw] transition-transform duration-300 ease-out ${
+                    isMobileOpen ? "translate-x-0" : "-translate-x-full"
+                }`}>
+                    <sidebarContent />
+                </div>
+
+                <button
+                    type="button"
+                    onClick={() => setIsMobileOpen(false)}
+                    className="absolute inset-0 -z-10"
+                />
+
             </div>
         </>
     )
