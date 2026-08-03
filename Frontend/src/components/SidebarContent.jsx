@@ -16,9 +16,9 @@ import {
     X,
 } from "lucide-react";
 
-function SidebarContent( {isMobileOpen, setIsMobileOpen, theme, themeToggle} ) {
+function SidebarContent( {isMobileOpen, isOpen, setIsMobileOpen, theme, themeToggle} ) {
 
-    const fullName = user?.full_name || "Admin";
+    const fullName = "Admin";
     const initials = fullName
         .split(" ")
         .filter(Boolean)
@@ -28,9 +28,12 @@ function SidebarContent( {isMobileOpen, setIsMobileOpen, theme, themeToggle} ) {
 
     return (
         <>
-            <div>
-
-            </div>
+        <aside 
+            className={`relative flex h-screen flex-col overflow-hidden rounded-none border-r border-slate-200 bg-white dark:bg-slate-800/80 dark:border-white/10 text-ink-900 dark:text-slate-800 shadow-[0_20px_60px_rgba(0,0,0,0.05) dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out ${
+                isOpen ? "w-72" : "w-24"
+            }  transition-all duration-300 ease-out`}>
+                snfksnf
+        </aside>
         </>
     )
 }

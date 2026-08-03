@@ -5,13 +5,30 @@ import { Sun, Moon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PanelLeftOpen, PanelLeftClose } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import sidebarContent from "../components/SidebarContent.jsx";
+import SidebarContent from "../components/SidebarContent.jsx";
+
+const itemRoutes = {}
 
 function DashboardSideBar() {
     const { theme, toggleTheme } = useTheme();
 
     const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const activeItem = Object.entries(itemRoutes).find(([, path]) => path === location.pathname)?.[0] ?? "";
+
+    const handleItemClick = (itemId) => {
+        const route = itemRoutes[itemId];
+        if (route) {
+            navigate(route);
+        }
+        setIsMobileOpen(false);
+    }
     return (
         <>
             <div className="min-h-screen bg-[#f4f7fa] dark:bg-[#060b14] text-ink-900 dark:text-slate-100 transition-colors duration-300">
@@ -37,7 +54,10 @@ function DashboardSideBar() {
                 </button>
 
                 <div className="hidden md:block">
-                    <sidebarContent 
+                    <SidebarContent 
+                        isOpen={isOpen}
+                        activeItem={activeItem}
+                        onItemClick={handleItemClick}
                         isMobileOpen={isMobileOpen}
                         setIsMobileOpen={setIsMobileOpen}
                         theme={theme}
@@ -48,7 +68,10 @@ function DashboardSideBar() {
                 <div className={`h-full max-w-[86vw] transition-transform duration-300 ease-out ${
                     isMobileOpen ? "translate-x-0" : "-translate-x-full"
                 }`}>
-                    <sidebarContent 
+                    <SidebarContent 
+                        isOpen
+                        activeItem={activeItem}
+                        onItemClick={handleItemClick}
                         isMobileOpen={isMobileOpen}
                         setIsMobileOpen={setIsMobileOpen}
                         theme={theme}
