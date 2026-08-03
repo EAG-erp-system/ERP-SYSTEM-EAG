@@ -53,9 +53,9 @@ function DashboardSideBar() {
                     <PanelLeftOpen size={20} />
                 </button>
 
-                <div className="hidden md:block">
+                <div className="hidden md:block h-screen">
                     <SidebarContent 
-                        isOpen={isOpen}
+                        isOpen={isOpen} 
                         activeItem={activeItem}
                         onItemClick={handleItemClick}
                         isMobileOpen={isMobileOpen}
@@ -65,9 +65,13 @@ function DashboardSideBar() {
                     />
                 </div>
 
-                <div className={`h-full max-w-[86vw] transition-transform duration-300 ease-out ${
-                    isMobileOpen ? "translate-x-0" : "-translate-x-full"
-                }`}>
+                <div className={`fixed inset-0 z-50 md:hidden ${
+                    isMobileOpen ? "pointer-events-auto backdrop-blur-sm" : "pointer-events-none"
+                    }`}>
+
+                    <div className={`h-full max-w-[86vw] transition-transform duration-300 ease-out ${
+                        isMobileOpen ? "translate-x-0" : "-translate-x-full"
+                        }`}>
                     <SidebarContent 
                         isOpen
                         activeItem={activeItem}
@@ -77,14 +81,14 @@ function DashboardSideBar() {
                         theme={theme}
                         themeToggle={toggleTheme}
                         />
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={() => setIsMobileOpen(false)}
+                        className="absolute inset-0 -z-10"
+                    />
                 </div>
-
-                <button
-                    type="button"
-                    onClick={() => setIsMobileOpen(false)}
-                    className="absolute inset-0 -z-10"
-                />
-
             </div>
         </>
     )
