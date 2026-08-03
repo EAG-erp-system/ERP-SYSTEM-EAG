@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { Sparkles, Sun, Moon } from "lucide-react";
-// import { useAuth } from "../context/AuthContext.jsx";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Sun, Moon, Sparkles } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext.jsx";
 
 export default function Login() {
-  // const { user, login } = useAuth();
-  const { theme, toggle } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const loc = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -14,14 +12,11 @@ export default function Login() {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // if (user) return <Navigate to="/dashboard" replace />;
-
   const submit = async (e) => {
     e.preventDefault();
     setErr("");
     setLoading(true);
     try {
-      await login(email, password);
       navigate(loc.state?.from || "/dashboard", { replace: true });
     } catch (e) {
       setErr(e.response?.data?.message || "Login failed");
@@ -31,35 +26,48 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[#f4f7fa] dark:bg-[#060b14] text-ink-900 dark:text-slate-100 transition-colors duration-300">
+      
       <button
-        onClick={toggle}
-        className="fixed top-4 right-4 p-2.5 rounded-xl glass"
+        onClick={toggleTheme}
+        type="button"
+        className="fixed top-4 right-4 p-2.5 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-black/10 dark:border-white/10 backdrop-blur-md text-ink-800 dark:text-slate-200 hover:opacity-80 active:scale-95 transition-all shadow-sm"
         aria-label="Toggle theme"
       >
-        {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+        {theme === "dark" ? (
+          <Sun size={18} className="text-amber-400" />
+        ) : (
+          <Moon size={18} className="text-brand-500" />
+        )}
       </button>
 
       <div className="w-full max-w-md">
-        <Link
-          to="/"
-          className="flex items-center justify-center gap-2 mb-6"
-        >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
-            
+        <Link to="/" className="flex items-center justify-center gap-2 mb-6 group">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
+            <Sparkles size={20} />
           </div>
-          <span className="font-semibold text-lg">Ethiopian Assemble of God Church</span>
+          <span className="font-semibold text-lg text-ink-900 dark:text-slate-100">
+            Ethiopian Assemblies of God Church
+          </span>
         </Link>
 
-        <div className="card p-7">
-          <h1 className="text-2xl font-semibold">Welcome back</h1>
+        <div className="bg-white/80 dark:bg-slate-900/60 border border-blue-600/10 dark:border-white/10 backdrop-blur-xl rounded-2xl p-7 shadow-xl">
+          <h1 className="text-2xl font-bold tracking-tight text-ink-900 dark:text-white">
+            Welcome back
+          </h1>
+          <p className="text-sm text-ink-500 dark:text-slate-400 mt-1">
+            Please enter your details to sign in.
+          </p>
 
           <form onSubmit={submit} className="mt-6 space-y-4">
+            {/* Email Field */}
             <div>
-              <label className="label">Email</label>
+              <label className="block text-sm font-medium mb-1.5 text-ink-800 dark:text-slate-300">
+                Email
+              </label>
               <input
-                className="input"
                 type="email"
+                className="w-full rounded-xl px-3.5 py-2.5 text-sm outline-none transition bg-white/90 dark:bg-white/5 border border-ink-900/10 dark:border-white/10 text-ink-900 dark:text-white placeholder:text-ink-500/50 dark:placeholder:text-slate-500 focus:border-blue-600 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/20"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
@@ -67,32 +75,37 @@ export default function Login() {
                 autoFocus
               />
             </div>
+
             <div>
-              <label className="label">Password</label>
+              <label className="block text-sm font-medium mb-1.5 text-ink-800 dark:text-slate-300">
+                Password
+              </label>
               <input
-                className="input"
                 type="password"
+                className="w-full rounded-xl px-3.5 py-2.5 text-sm outline-none transition bg-white/90 dark:bg-white/5 border border-ink-900/10 dark:border-white/10 text-ink-900 dark:text-white placeholder:text-ink-500/50 dark:placeholder:text-slate-500 focus:border-blue-600 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/20"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
               />
             </div>
+
             {err && (
               <div className="text-sm text-rose-500 bg-rose-500/10 border border-rose-500/20 rounded-lg px-3 py-2">
                 {err}
               </div>
             )}
+
             <button
               type="submit"
-              className="btn-primary w-full py-3"
               disabled={loading}
+              className="w-full py-3 mt-2 inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold text-white transition active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-blue-600 to-blue-700 hover:brightness-110 shadow-lg shadow-blue-500/30"
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
           </form>
-
         </div>
+
       </div>
     </div>
   );
