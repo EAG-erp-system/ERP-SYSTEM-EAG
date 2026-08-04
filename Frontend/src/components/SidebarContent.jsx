@@ -94,7 +94,6 @@ function SidebarContent({
 
                 <div className="mb-6 h-px bg-slate-200 dark:bg-slate-700" />
 
-                {/* Main Navigation Area */}
                 <div className="flex-1 space-y-6 overflow-y-auto pr-1">
                     <SidebarSection
                         isOpen={isOpen}

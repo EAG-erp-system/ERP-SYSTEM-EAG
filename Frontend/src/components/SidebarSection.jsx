@@ -1,6 +1,11 @@
 
+import SidebarItem from "./SidebarItem"
+
 function SidebarSection() {
-    return (<></>)
+    return (<>
+    <h1>section</h1>
+    <SidebarItem />
+    </>)
 }
 
 export default SidebarSection

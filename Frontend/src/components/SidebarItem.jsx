@@ -1,6 +1,12 @@
 
 function SidebarItem() {
-    return (<></>)
+    return (
+        <>
+            <button>
+                logout
+            </button>
+        </>
+    )
 }
 
 export default SidebarItem

@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sun, Moon, Sparkles } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext.jsx";
 
+import MainLogo from "../../assets/MainLogo.png"
+
 export default function Login() {
   const { theme, toggleTheme } = useTheme();
   const loc = useLocation();
@@ -44,7 +46,7 @@ export default function Login() {
       <div className="w-full max-w-md">
         <Link to="/" className="flex items-center justify-center gap-2 mb-6 group">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30 group-hover:scale-105 transition-transform">
-            <Sparkles size={20} />
+            <img src={MainLogo} alt="" />
           </div>
           <span className="font-semibold text-lg text-ink-900 dark:text-slate-100">
             Ethiopian Assemblies of God Church
