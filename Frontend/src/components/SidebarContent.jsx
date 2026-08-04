@@ -34,7 +34,7 @@ function SidebarContent( {isMobileOpen, isOpen, setIsMobileOpen, theme, themeTog
             }  transition-all duration-300 ease-out`}>
                 
                 <div className="relative z-10 flex h-full flex-col p-4">
-                    <div className={`mb-6 flex items-center ${isOpen ? "justify-between" : "justify-center"} gap-3`}>
+                    <div className={`mb-6 flex items-center ${isOpen ? "justify-between" : "justify-center"} gap-0`}>
                         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 dark:bg-slate-700 shadow">
                             <img src={MainLogo} alt="StepWise logo" className="h-8 w-8 object-contain" />
                         </div>
@@ -44,10 +44,10 @@ function SidebarContent( {isMobileOpen, isOpen, setIsMobileOpen, theme, themeTog
                                 isOpen ? "max-w-[180px] opacity-100" : "max-w-0 opacity-0"
                             }`}
                         >
-                            <p className="roboto-light text-[11px] uppercase tracking-[0.28em] text-slate-500">
+                            <p className="roboto-light text-[11px] uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">
                                 Workspace
                             </p>
-                            <h1 className="roboto-bold truncate text-lg text-slate-800">EAG Admin</h1>
+                            <h1 className="roboto-bold truncate text-lgtext-slate-800 dark:text-gray-200">EAG Admin</h1>
                         </div>
                     </div>
                 </div>
