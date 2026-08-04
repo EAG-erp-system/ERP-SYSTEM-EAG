@@ -73,7 +73,7 @@ function SidebarContent({
                                 Workspace
                             </p>
                             <h1 className="roboto-bold truncate text-lg text-slate-800 dark:text-slate-200">
-                                StepWise Admin
+                                EAG Admin
                             </h1>
                         </div>
                     </div>
