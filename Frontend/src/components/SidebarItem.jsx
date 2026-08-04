@@ -2,9 +2,7 @@
 function SidebarItem() {
     return (
         <>
-            <button>
-                logout
-            </button>
+            
         </>
     )
 }
