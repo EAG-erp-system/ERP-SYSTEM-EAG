@@ -9,7 +9,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import SidebarContent from "../components/SidebarContent.jsx";
 
-const itemRoutes = {}
+const itemRoutes = {
+    "dashboard": "/dashboard",
+}
 
 function DashboardSideBar() {
     const { theme, toggleTheme } = useTheme();
