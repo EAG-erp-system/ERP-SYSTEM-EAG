@@ -58,11 +58,7 @@ function DashboardSideBar() {
                         isOpen={isOpen} 
                         activeItem={activeItem}
                         onItemClick={handleItemClick}
-                        isMobileOpen={isMobileOpen}
-                        setIsMobileOpen={setIsMobileOpen}
                         onCollapseToggle={() => setIsOpen((prev) => !prev)}
-                        theme={theme}
-                        themeToggle={toggleTheme}
                     />
                 </div>
 
@@ -73,15 +69,15 @@ function DashboardSideBar() {
                     <div className={`h-full max-w-[86vw] transition-transform duration-300 ease-out ${
                         isMobileOpen ? "translate-x-0" : "-translate-x-full"
                         }`}>
-                    <SidebarContent 
-                        isOpen
-                        activeItem={activeItem}
-                        onItemClick={handleItemClick}
-                        isMobileOpen={isMobileOpen}
-                        onMobileClose={() => setIsMobileOpen(false)}
-                        mobile
-                        setIsMobileOpen={setIsMobileOpen}
-                        />
+                        <SidebarContent 
+                            isOpen
+                            activeItem={activeItem}
+                            onItemClick={handleItemClick}
+                            isMobileOpen={isMobileOpen}
+                            onMobileClose={() => setIsMobileOpen(false)}
+                            mobile
+                            setIsMobileOpen={setIsMobileOpen}
+                            />
                     </div>
 
                     <button
