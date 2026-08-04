@@ -2,6 +2,7 @@ import MainLogo from "../assets/MainLogo.png";
 import SidebarSection from "../components/SidebarSection";
 import SidebarItem from "../components/SidebarItem";
 
+import { menueSections, footerItems } from "../data/SideBarData"
 import {
     BarChart3,
     BookOpen,
@@ -95,21 +96,31 @@ function SidebarContent({
                 <div className="mb-6 h-px bg-slate-200 dark:bg-slate-700" />
 
                 <div className="flex-1 space-y-6 overflow-y-auto pr-1">
-                    <SidebarSection
-                        isOpen={isOpen}
-                        activeItem={activeItem}
-                        onItemClick={onItemClick}
+                    {menueSections.map((section) => (
+                        <SidebarSection
+                            key={section.title}
+                            title={section.title}
+                            items={section.items}
+                            isOpen={isOpen}
+                            activeItem={activeItem}
+                            onItemClick={onItemClick}
                     />
+
+                    ))}
                 </div>
 
                 <div className="mt-4 h-px bg-slate-200 dark:bg-slate-700" />
 
                 <div className="mt-4 space-y-2">
-                    <SidebarItem
-                        isOpen={isOpen}
-                        activeItem={activeItem}
-                        onItemClick={onItemClick}
+                    {footerItems.map((item) => (
+                        <SidebarItem
+                            key={item.id}
+                            item={item}
+                            isActive={activeItem === item.id}
+                            isOpen={isOpen}
+                            onItemClick={onItemClick}
                     />
+                    ))}
                 </div>
 
                 <div
