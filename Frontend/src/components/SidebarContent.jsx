@@ -16,7 +16,7 @@ import {
     X,
 } from "lucide-react";
 
-function SidebarContent( {isMobileOpen, isOpen, setIsMobileOpen, theme, themeToggle} ) {
+function SidebarContent( {isMobileOpen, mobile, onCollapseToggle, isOpen, setIsMobileOpen, onItemClick, activeItem, onMobileClose, theme, themeToggle} ) {
 
     const fullName = "Admin";
     const initials = fullName
@@ -29,13 +29,14 @@ function SidebarContent( {isMobileOpen, isOpen, setIsMobileOpen, theme, themeTog
     return (
         <>
         <aside 
-            className={`relative flex h-full flex-col overflow-hidden border-r border-slate-200 bg-white dark:bg-slate-800/80 dark:border-white/10 text-ink-900 dark:text-slate-800 shadow-[0_20px_60px_rgba(0,0,0,0.05) dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out ${
+            className={`relative flex h-full flex-col overflow-hidden border-r border-slate-200 bg-white dark:bg-slate-800/80 dark:border-white/10 text-ink-900 dark:text-slate-800 shadow-[0_20px_60px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out ${
                 isOpen ? "w-72" : "w-24"
             }  transition-all duration-300 ease-out`}>
                 
                 <div className="relative z-10 flex h-full flex-col p-4">
-                    <div className={`mb-6 flex items-center ${isOpen ? "justify-between" : "justify-center"} gap-0`}>
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 dark:bg-slate-700 shadow">
+                <div className={`mb-6 flex items-center ${isOpen ? "justify-between" : "justify-center"} gap-3`}>
+                    <div className={`flex min-w-0 items-center gap-3 ${isOpen ? "" : "justify-center"}`}>
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-slate-700 shadow">
                             <img src={MainLogo} alt="StepWise logo" className="h-8 w-8 object-contain" />
                         </div>
 
@@ -47,9 +48,18 @@ function SidebarContent( {isMobileOpen, isOpen, setIsMobileOpen, theme, themeTog
                             <p className="roboto-light text-[11px] uppercase tracking-[0.28em] text-slate-500 dark:text-slate-400">
                                 Workspace
                             </p>
-                            <h1 className="roboto-bold truncate text-lgtext-slate-800 dark:text-gray-200">EAG Admin</h1>
+                            <h1 className="roboto-bold truncate text-lg text-slate-800 dark:text-slate-200">StepWise Admin</h1>
                         </div>
                     </div>
+
+                    <button
+                        type="button"
+                        onClick={mobile ? onMobileClose : onCollapseToggle}
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 transition hover:bg-slate-200 dark:hover:bg-slate-600 hover:text-slate-900 dark:hover:text-slate-100"
+                    >
+                        {mobile ? <X size={18} /> : isOpen ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
+                    </button>
+                </div>
                 </div>
         </aside>
         </>

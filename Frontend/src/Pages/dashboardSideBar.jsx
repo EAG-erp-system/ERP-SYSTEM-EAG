@@ -4,7 +4,7 @@ import { Sun, Moon } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { PanelLeftOpen, PanelLeftClose } from "lucide-react";
+import { Menu  } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import SidebarContent from "../components/SidebarContent.jsx";
@@ -50,7 +50,7 @@ function DashboardSideBar() {
                     onClick={() => setIsMobileOpen(true)}
                     className="fixed left-4 top-4 cursor-pointer w-10 h-10 flex items-center justify-center rounded-xl border dark:border-white/10 border-slate-200 bg-white dark:bg-slate-800/80 text-ink-700 dark:text-slate-300 outline-none shadow-lg md:hidden"
                 >
-                    <PanelLeftOpen size={20} />
+                    <Menu size={18} />
                 </button>
 
                 <div className="hidden md:block h-screen">
@@ -60,6 +60,7 @@ function DashboardSideBar() {
                         onItemClick={handleItemClick}
                         isMobileOpen={isMobileOpen}
                         setIsMobileOpen={setIsMobileOpen}
+                        onCollapseToggle={() => setIsOpen((prev) => !prev)}
                         theme={theme}
                         themeToggle={toggleTheme}
                     />
@@ -77,9 +78,9 @@ function DashboardSideBar() {
                         activeItem={activeItem}
                         onItemClick={handleItemClick}
                         isMobileOpen={isMobileOpen}
+                        onMobileClose={() => setIsMobileOpen(false)}
+                        mobile
                         setIsMobileOpen={setIsMobileOpen}
-                        theme={theme}
-                        themeToggle={toggleTheme}
                         />
                     </div>
 
