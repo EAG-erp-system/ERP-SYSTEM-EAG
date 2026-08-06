@@ -69,3 +69,41 @@ exports.registerEmployee = async (req, res, next) => {
         next(error)
     }
 }
+
+exports.login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+
+        if(!email || !password) {
+            res.status(400)
+            throw new Error("Required all data")
+        };
+
+        const user = await employee.findEmployeeByEmail(email);
+        if(!user) {
+            res.status(401);
+            throw new Error("Invalid email or password");
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch) {
+            res.status(401);
+            throw new Error("Invalid email or password");
+        }
+
+        const token = generateToken(user.id);
+
+        res.status(200).json({
+            success: true,
+            message: "Login successful",
+            token,
+            user: {
+                id: user.id,
+                full_name: user.full_name,
+                email: user.email
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}

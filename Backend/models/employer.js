@@ -68,6 +68,7 @@ exports.getMe = async (userId) => {
                 bank_name, 
                 account_number, 
                 hire_date
+            FROM employees
             WHERE id = ?
         `,
         [userId]
