@@ -45,3 +45,32 @@ exports.createEmployee = async (userData) => {
 
     return result.insertId;
 };
+
+exports.findEmployeeByEmail = async (email) => {
+    const [rows] = await db.query(
+        "SELECT * FROM employees WHERE email = ?",
+        [email]
+    );
+    return rows[0];
+}
+
+exports.getMe = async (userId) => {
+    const [result] = await db.query(
+        `
+            SELECT 
+                id,
+                full_name,
+                email,
+                role, 
+                basic_salary, 
+                transport_allowance, 
+                mobil_card_allowance, 
+                bank_name, 
+                account_number, 
+                hire_date
+            WHERE id = ?
+        `,
+        [userId]
+    );
+    return result[0]
+}
