@@ -16,9 +16,6 @@ exports.createEmployee = async (userData) => {
         hire_date 
     } = userData;
 
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
     const [result] = await db.query(
         `INSERT INTO employees (
             full_name, 
@@ -35,7 +32,7 @@ exports.createEmployee = async (userData) => {
         [ 
             full_name, 
             email, 
-            hashedPassword, 
+            password, 
             role, 
             basic_salary, 
             transport_allowance, 
