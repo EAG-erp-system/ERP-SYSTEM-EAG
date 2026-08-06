@@ -16,10 +16,10 @@ exports.registerEmployee = async (req, res, next) => {
         full_name, 
         email, 
         password, 
-        role = 'EMPLOYEE',
-        basic_salary = 0.00, 
-        transport_allowance = 0.00, 
-        mobil_card_allowance = 0.00, 
+        role,
+        basic_salary,
+        transport_allowance,
+        mobil_card_allowance,
         bank_name, 
         account_number, 
         hire_date 
@@ -103,6 +103,23 @@ exports.login = async (req, res, next) => {
                 email: user.email
             }
         })
+    } catch (error) {
+        next(error)
+    }
+}
+exports.getMe = async (req, res, next) => {
+    try {
+        const user = await employee.getMe(req.user.id);
+
+        if(!user) {
+            res.status(404)
+            throw new Error("User not found")
+        }
+
+        res.status(200).json({
+            success: true,
+            data: user
+        });
     } catch (error) {
         next(error)
     }
