@@ -1,6 +1,4 @@
 const db = require('../config/db');
-const bcrypt = require('bcrypt');
-
 
 exports.createEmployee = async (userData) => {
     const { 
@@ -30,11 +28,12 @@ exports.createEmployee = async (userData) => {
             bank_name, 
             account_number, 
             hire_date
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [ 
             full_name, 
             email, 
             password, 
+            department,
             role, 
             basic_salary, 
             transport_allowance, 
@@ -54,7 +53,7 @@ exports.findEmployeeByEmail = async (email) => {
         [email]
     );
     return rows[0];
-}
+};
 
 exports.getMe = async (userId) => {
     const [result] = await db.query(
@@ -63,6 +62,7 @@ exports.getMe = async (userId) => {
                 id,
                 full_name,
                 email,
+                department,
                 role, 
                 basic_salary, 
                 transport_allowance, 
@@ -75,5 +75,5 @@ exports.getMe = async (userId) => {
         `,
         [userId]
     );
-    return result[0]
-}
+    return result[0];
+};
