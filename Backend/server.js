@@ -5,6 +5,7 @@ const cors = require('cors');
 
 // Routers
 const authRouter = require('./routes/authRouter');
+const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
