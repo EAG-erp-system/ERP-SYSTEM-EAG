@@ -77,3 +77,70 @@ exports.getMe = async (userId) => {
     );
     return result[0];
 };
+
+exports.updateEmployee = async (userId, userData) => {
+     const { 
+        full_name, 
+        email, 
+        password, 
+        department,
+        role,
+        basic_salary,
+        transport_allowance,
+        mobil_card_allowance,
+        bank_name, 
+        account_number, 
+        hire_date 
+    } = userData;
+
+    await db.query(
+        `
+            UPDATE employees SET
+                full_name = ?,
+                email = ?,
+                password = ?, 
+                department = ?,
+                role = ?,
+                basic_salary = ?,
+                transport_allowance = ?,
+                mobil_card_allowance = ?,
+                bank_name = ?,
+                account_number = ?,
+                hire_date = ?
+        `,
+        [
+            full_name, 
+            email, 
+            password, 
+            department,
+            role,
+            basic_salary,
+            transport_allowance,
+            mobil_card_allowance,
+            bank_name, 
+            account_number, 
+            hire_date,
+            userId
+        ]
+    );
+    const [rows] = await db.query(
+        `
+            UPDATE employees SET 
+                full_name, 
+                email, 
+                password, 
+                department,
+                role,
+                basic_salary,
+                transport_allowance,
+                mobil_card_allowance,
+                bank_name, 
+                account_number, 
+                hire_date
+            WHERE id = ?
+        `,
+        [userId]
+    );
+
+    return rows[0]
+}
