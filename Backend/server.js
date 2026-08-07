@@ -4,6 +4,7 @@ const db = require('./config/db');
 const cors = require('cors');
 
 // Routers
+const authRouter = require('./routes/authRouter');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // API Routers
+app.use('/api/auth', authRouter);
 
 app.use(notFound);
 app.use(errorHandler);
