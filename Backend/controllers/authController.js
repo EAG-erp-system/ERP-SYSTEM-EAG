@@ -16,6 +16,7 @@ exports.registerEmployee = async (req, res, next) => {
         full_name, 
         email, 
         password, 
+        department,
         role,
         basic_salary,
         transport_allowance,
@@ -25,7 +26,7 @@ exports.registerEmployee = async (req, res, next) => {
         hire_date 
     } = req.body;
 
-    if (!full_name || !email || !password || !bank_name || !account_number || !hire_date) {
+    if (!full_name || !email || !password || !department, !bank_name || !account_number || !hire_date) {
         res.status(400);
         throw new Error("Require all data")
     }
@@ -43,6 +44,7 @@ exports.registerEmployee = async (req, res, next) => {
         full_name,
         email,
         password: hashedPassword,
+        department,
         role,
         basic_salary,
         transport_allowance,
@@ -62,6 +64,7 @@ exports.registerEmployee = async (req, res, next) => {
             id: employeeId,
             full_name,
             email,
+            department,
             role
         }
     })
