@@ -128,43 +128,65 @@ exports.getMe = async (req, res, next) => {
     }
 }
 
-exports.update = async (req, res, next) => {
+exports.updateProfile = async (req, res, next) => {
     try {
-        const {
-            full_name, 
-            email, 
-            password, 
-            department,
-            role,
-            basic_salary,
-            transport_allowance,
-            mobil_card_allowance,
-            bank_name, 
-            account_number, 
-            hire_date 
-        } = req.body;
-
         const userId = req.user.id;
+        const { full_name, email, bank_name, account_number } = req.body;
 
-        if(!userId) {
-            res.status(400)
-            throw new Error("User Not found")
+        const updateData = {}
+        if (full_name) updateData.full_name = full_name;
+        if (bank_name) updateData.bank_name = bank_name;
+        if (account_number) updateData.account_number = account_number;
+
+        if(email) {
+            const existingEmployee = await employee.findEmployeeByEmail(email);
+            if(existingEmployee && existingEmployee.id !== userId) {
+                res.status(400);
+                throw new Error("Email is already in use by another account");
+            }
+            updateData.email = email;
         }
 
-        const existingUser = await employee.findEmployeeByEmail(email);
-        if(existingUser && existingUser.id !== userId) {
-            res.status(400)
-            throw new Error("Email is already in use by another account");
-        }
-
-        const updateEmployee = await employee.updateEmployee(userId);
+        const updatedEmployee = await employee.updateEmployee(userId, updateData);
 
         res.status(200).json({
             success: true,
             message: "Profile updated successfully",
-            user: updatedUser
+            employee: updatedEmployee
         })
-    } catch(error) {
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.updateEmployeeByAdmin = async (req, res, next) => {
+    try {
+        const targetEmployeeId = req.params.id;
+        const updateData = { ...req.body };
+
+        delete updateData.id;
+
+        if (updateData.email) {
+            const existingEmployee = await employee.findEmployeeByEmail(updateData.email);
+            if (existingEmployee && Number(existingEmployee.id) !== Number(targetEmployeeId)) {
+                res.status(400);
+                throw new Error("Email is already in use by another account");
+            }
+        }
+
+        if(updateData.password) {
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(updateData.password, salt);
+        }
+
+        const updatedEmployee = await employee.updateEmployee(targetEmployeeId, updateData);
+
+        res.status(200).json({
+            success: true,
+            message: "Employee updated successfully by Admin",
+            employee: updatedEmployee
+        })
+    } catch (error) {
         next(error)
     }
 }
