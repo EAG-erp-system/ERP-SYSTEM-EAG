@@ -128,43 +128,32 @@ exports.getMe = async (req, res, next) => {
     }
 }
 
-exports.update = async (req, res, next) => {
-    try {
-        const {
-            full_name, 
-            email, 
-            password, 
-            department,
-            role,
-            basic_salary,
-            transport_allowance,
-            mobil_card_allowance,
-            bank_name, 
-            account_number, 
-            hire_date 
-        } = req.body;
+exports.updateEmployee = async (userId, userData) => {
+    const fields = [];
+    const values = [];
 
-        const userId = req.user.id;
-
-        if(!userId) {
-            res.status(400)
-            throw new Error("User Not found")
+    Object.keys(userData).forEach((key) => {
+        if(userData[key] !== undefined) {
+            fields.push(`${key} = ?`);
+            values.push(userData[key]);
         }
+    });
 
-        const existingUser = await employee.findEmployeeByEmail(email);
-        if(existingUser && existingUser.id !== userId) {
-            res.status(400)
-            throw new Error("Email is already in use by another account");
-        }
+    if (fields.length === 0) return null;
 
-        const updateEmployee = await employee.updateEmployee(userId);
+    values.push(userId)
 
-        res.status(200).json({
-            success: true,
-            message: "Profile updated successfully",
-            user: updatedUser
-        })
-    } catch(error) {
-        next(error)
-    }
+    const sql = `UPDATE employees SET ${fields.join(', ')} WHERE id = ?`;
+    await db.query(sql, values);
+
+    const [rows] = await db.query(
+        `
+            SELECT id, full_name, email, department, role, basic_salary, 
+                transport_allowance, mobil_card_allowance, bank_name, 
+                account_number, hire_date 
+            FROM employees WHERE id = ?
+        `,
+        [userId]
+    );
+    return rows[0];
 }
