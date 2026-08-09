@@ -79,68 +79,31 @@ exports.getMe = async (userId) => {
 };
 
 exports.updateEmployee = async (userId, userData) => {
-     const { 
-        full_name, 
-        email, 
-        password, 
-        department,
-        role,
-        basic_salary,
-        transport_allowance,
-        mobil_card_allowance,
-        bank_name, 
-        account_number, 
-        hire_date 
-    } = userData;
+    const fields = [];
+    const values = [];
 
-    await db.query(
-        `
-            UPDATE employees SET
-                full_name = ?,
-                email = ?,
-                password = ?, 
-                department = ?,
-                role = ?,
-                basic_salary = ?,
-                transport_allowance = ?,
-                mobil_card_allowance = ?,
-                bank_name = ?,
-                account_number = ?,
-                hire_date = ?
-        `,
-        [
-            full_name, 
-            email, 
-            password, 
-            department,
-            role,
-            basic_salary,
-            transport_allowance,
-            mobil_card_allowance,
-            bank_name, 
-            account_number, 
-            hire_date,
-            userId
-        ]
-    );
+    Object.keys(userData).forEach((key) => {
+        if(userData[key] !== undefined) {
+            fields.push(`${key} = ?`);
+            values.push(userData[key]);
+        }
+    });
+
+    if (fields.length === 0) return null;
+
+    values.push(userId)
+
+    const sql = `UPDATE employees SET ${fields.join(', ')} WHERE id = ?`;
+    await db.query(sql, values);
+
     const [rows] = await db.query(
         `
-            UPDATE employees SET 
-                full_name, 
-                email, 
-                password, 
-                department,
-                role,
-                basic_salary,
-                transport_allowance,
-                mobil_card_allowance,
-                bank_name, 
-                account_number, 
-                hire_date
-            WHERE id = ?
+            SELECT id, full_name, email, department, role, basic_salary, 
+                transport_allowance, mobil_card_allowance, bank_name, 
+                account_number, hire_date 
+            FROM employees WHERE id = ?
         `,
         [userId]
     );
-
-    return rows[0]
+    return rows[0];
 }
