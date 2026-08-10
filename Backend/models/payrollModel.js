@@ -85,3 +85,33 @@ exports.getBatchDetails = async (batchId) => {
 
     return { ...batch[0], grand_totals: totals[0], employees: payrolls };
 };
+
+exports.approveBatch = async (batchId, approvedBy) => {
+    const [result] = await db.query(
+        `UPDATE payroll_batches 
+         SET status = 'APPROVED', approved_by = ? 
+         WHERE id = ? AND status = 'DRAFT'`,
+        [approvedBy, batchId]
+    );
+    return result.affectedRows > 0;
+};
+
+exports.markBatchAsPaid = async (batchId) => {
+    const [batchResult] = await db.query(
+        `UPDATE payroll_batches 
+         SET status = 'PAID' 
+         WHERE id = ? AND status = 'APPROVED'`,
+        [batchId]
+    );
+
+    if (batchResult.affectedRows === 0) return false;
+
+    await db.query(
+        `UPDATE payrolls 
+         SET payment_status = 'PAID', payment_date = CURDATE() 
+         WHERE payroll_batch_id = ?`,
+        [batchId]
+    );
+
+    return true;
+};
