@@ -48,3 +48,42 @@ exports.getDailyReport = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getMyAttendanceStats = async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+        const now = new Date();
+        const year = req.query.year || now.getFullYear();
+        const month = req.query.month || (now.getMonth() + 1);
+
+        const stats = await attendanceModel.getEmployeeAttendanceStats(userId, year, month);
+
+        res.status(200).json({
+            success: true,
+            year: Number(year),
+            month: Number(month),
+            data: stats
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getAllMonthlyStats = async (req, res, next) => {
+    try {
+        const now = new Date();
+        const year = req.query.year || now.getFullYear();
+        const month = req.query.month || (now.getMonth() + 1);
+
+        const stats = await attendanceModel.getAllEmployeesMonthlyStats(year, month);
+
+        res.status(200).json({
+            success: true,
+            year: Number(year),
+            month: Number(month),
+            data: stats
+        });
+    } catch (error) {
+        next(error);
+    }
+};
