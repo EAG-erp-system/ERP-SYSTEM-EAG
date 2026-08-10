@@ -14,3 +14,18 @@ exports.markAttendance = async (attendanceData) => {
 
     return result;
 }
+
+exports.getEmployeeAttendance = async (employee_id, startDate, endDate) => {
+    let query = `SELECT * FROM attendance WHERE employee_id = ?`;
+    const params = [employee_id];
+
+    if(startDate && endDate) {
+        query += ` AND date BETWEEN ? AND ?`;
+        params.push(startDate, endDate)
+    }
+
+    query += ` ORDER BY date DESC`;
+
+    const [rows] = await db.query(query, params);
+    return rows;
+}
