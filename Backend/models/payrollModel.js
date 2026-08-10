@@ -65,5 +65,23 @@ exports.getBatchDetails = async (batchId) => {
         [batchId]
     );
 
-    return { ...batch[0], employees: payrolls };
+    const [totals] = await db.query(
+        `SELECT 
+            SUM(basic_salary) AS total_basic_salary,
+            SUM(transport_allowance) AS total_transport_allowance,
+            SUM(mobil_card_allowance) AS total_mobil_card_allowance,
+            SUM(unpaid_days_deduction) AS total_unpaid_deductions,
+            SUM(gross_salary) AS total_gross_salary,
+            SUM(taxable_income) AS total_taxable_income,
+            SUM(income_tax) AS total_income_tax,
+            SUM(employee_pension_staff) AS total_employee_pension,
+            SUM(employer_pension) AS total_employer_pension,
+            SUM(total_deductions) AS total_deductions,
+            SUM(net_salary) AS total_net_salary
+         FROM payrolls
+         WHERE payroll_batch_id = ?`,
+        [batchId]
+    );
+
+    return { ...batch[0], grand_totals: totals[0], employees: payrolls };
 };
