@@ -42,3 +42,28 @@ exports.createPayrollRecord = async (payrollData) => {
     );
     return result.insertId;
 };
+
+exports.updateBatchTotals = async (batchId) => {
+    await db.query(
+        `UPDATE payroll_batches 
+         SET total_gross = (SELECT SUM(gross_salary) FROM payrolls WHERE payroll_batch_id = ?),
+            total_net = (SELECT SUM(net_salary) FROM payrolls WHERE payroll_batch_id = ?)
+         WHERE id = ?`,
+        [batchId, batchId, batchId]
+    );
+};
+
+exports.getBatchDetails = async (batchId) => {
+    const [batch] = await db.query(`SELECT * FROM payroll_batches WHERE id = ?`, [batchId]);
+    if (!batch.length) return null;
+
+    const [payrolls] = await db.query(
+        `SELECT p.*, e.full_name, e.department, e.bank_name, e.account_number 
+         FROM payrolls p 
+         JOIN employees e ON p.employee_id = e.id 
+         WHERE p.payroll_batch_id = ?`,
+        [batchId]
+    );
+
+    return { ...batch[0], employees: payrolls };
+};
