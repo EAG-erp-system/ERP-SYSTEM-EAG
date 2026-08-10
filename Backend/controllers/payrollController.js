@@ -110,3 +110,50 @@ exports.getMyPayslip = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.approvePayrollBatch = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const approvedBy = req.user.id;
+
+        const approved = await payrollModel.approveBatch(id, approvedBy);
+
+        if (!approved) {
+            res.status(400);
+            throw new Error('Batch cannot be approved. It might already be approved or does not exist.');
+        }
+
+        const updatedBatch = await payrollModel.getBatchDetails(id);
+
+        res.status(200).json({
+            success: true,
+            message: `Payroll batch #${id} has been successfully APPROVED.`,
+            data: updatedBatch
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.payPayrollBatch = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const paid = await payrollModel.markBatchAsPaid(id);
+
+        if (!paid) {
+            res.status(400);
+            throw new Error('Batch payment cannot be processed. Ensure the batch status is APPROVED first.');
+        }
+
+        const paidBatch = await payrollModel.getBatchDetails(id);
+
+        res.status(200).json({
+            success: true,
+            message: `Payroll batch #${id} marked as PAID. Employee payslips updated.`,
+            data: paidBatch
+        });
+    } catch (error) {
+        next(error);
+    }
+};
