@@ -10,4 +10,8 @@ router.post('/generate', payrollController.generatePayroll);
 
 router.get('/my-payslip', payrollController.getMyPayslip);
 
+router.patch('/batch/:id/approve', payrollController.approvePayrollBatch);
+
+router.patch('/batch/:id/pay', payrollController.payPayrollBatch);
+
 module.exports = router;
