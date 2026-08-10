@@ -29,3 +29,20 @@ exports.getEmployeeAttendance = async (employee_id, startDate, endDate) => {
     const [rows] = await db.query(query, params);
     return rows;
 }
+
+exports.getDailyAttendanceSummary = async (date) => {
+    const [rows] = await db.query(
+        `SELECT 
+            a.id,
+            e.id AS employee_id,
+            e.full_name,
+            e.department,
+            a.date,
+            a.status
+         FROM employees e
+         LEFT JOIN attendance a ON e.id = a.employee_id AND a.date = ?
+         ORDER BY e.full_name ASC`,
+        [date]
+    );
+    return rows;
+};
