@@ -6,6 +6,7 @@ const cors = require('cors');
 // Routers
 const authRouter = require('./routes/authRouter');
 const attendanceRouter = require('./routes/attendanceRouter');
+const payrollRouter = require('./routes/payrollRouter');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // API Routers
 app.use('/api/auth', authRouter);
 app.use('/api/attendance', attendanceRouter);
+app.use('/api/payroll', payrollRouter);
 
 app.use(notFound);
 app.use(errorHandler);

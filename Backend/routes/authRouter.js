@@ -7,7 +7,7 @@ const employeeController = require('../controllers/authController');
 
 router.use(protect);
 
-router.post('/register', authorize('ADMIN'), employeeController.registerEmployee);
+router.post('/register', employeeController.registerEmployee);
 router.post('/login', employeeController.login);
 
 router.get('/me', employeeController.getMe);
