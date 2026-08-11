@@ -7,6 +7,7 @@ const cors = require('cors');
 const authRouter = require('./routes/authRouter');
 const attendanceRouter = require('./routes/attendanceRouter');
 const payrollRouter = require('./routes/payrollRouter');
+const salaryHistoryRouter = require('./routes/salaryHistoryRouter');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRouter);
 app.use('/api/attendance', attendanceRouter);
 app.use('/api/payroll', payrollRouter);
+app.use('/api/salary', salaryHistoryRouter);
 
 app.use(notFound);
 app.use(errorHandler);
