@@ -57,11 +57,11 @@ exports.getEmployeeAttendanceStats = async (employee_id, year, month) => {
             COUNT(CASE WHEN status = 'LEAVE_AUTHORIZED' THEN 1 END) AS authorized_leave_count,
             COUNT(CASE WHEN status = 'UNPAID_LEAVE' THEN 1 END) AS unpaid_leave_count,
             COUNT(*) AS total_marked_days
-         FROM attendance
-         WHERE employee_id = ? 
-           AND YEAR(date) = ? 
-           AND MONTH(date) = ?
-         GROUP BY employee_id`,
+        FROM attendance
+        WHERE employee_id = ?  
+            AND YEAR(date) = ? 
+            AND MONTH(date) = ?
+        GROUP BY employee_id`,
         [employee_id, year, month]
     );
 
