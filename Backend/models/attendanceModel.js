@@ -92,11 +92,11 @@ exports.getAllEmployeesMonthlyStats = async (year, month) => {
             COALESCE(COUNT(CASE WHEN a.status = 'LEAVE_AUTHORIZED' THEN 1 END), 0) AS authorized_leave_count,
             COALESCE(COUNT(CASE WHEN a.status = 'UNPAID_LEAVE' THEN 1 END), 0) AS unpaid_leave_count,
             COALESCE(COUNT(a.id), 0) AS total_marked_days
-         FROM employees e
-         LEFT JOIN attendance a 
-                ON e.id = a.employee_id 
-               AND YEAR(a.date) = ? 
-               AND MONTH(a.date) = ?
+        FROM employees e
+        LEFT JOIN attendance a 
+            ON e.id = a.employee_id 
+            AND YEAR(a.date) = ? 
+            AND MONTH(a.date) = ?
          GROUP BY e.id, e.full_name, e.department
          ORDER BY e.full_name ASC`,
         [year, month]
