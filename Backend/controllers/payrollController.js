@@ -36,7 +36,6 @@ exports.generatePayroll = async (req, res, next) => {
             const dailyRate = Number(emp.basic_salary) / 30;
             const unpaidDeduction = unpaidDays * dailyRate;
 
-            // ለ) የ Gross Salary እና Pension ስሌቶች
             const basicSalary = Number(emp.basic_salary);
             const transportAllowance = Number(emp.transport_allowance || 0);
             const mobileAllowance = Number(emp.mobil_card_allowance || 0);

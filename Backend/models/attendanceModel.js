@@ -39,9 +39,9 @@ exports.getDailyAttendanceSummary = async (date) => {
             e.department,
             a.date,
             a.status
-         FROM employees e
-         LEFT JOIN attendance a ON e.id = a.employee_id AND a.date = ?
-         ORDER BY e.full_name ASC`,
+        FROM employees e
+        LEFT JOIN attendance a ON e.id = a.employee_id AND a.date = ?
+        ORDER BY e.full_name ASC`,
         [date]
     );
     return rows;
@@ -97,8 +97,8 @@ exports.getAllEmployeesMonthlyStats = async (year, month) => {
             ON e.id = a.employee_id 
             AND YEAR(a.date) = ? 
             AND MONTH(a.date) = ?
-         GROUP BY e.id, e.full_name, e.department
-         ORDER BY e.full_name ASC`,
+        GROUP BY e.id, e.full_name, e.department
+        ORDER BY e.full_name ASC`,
         [year, month]
     );
 
