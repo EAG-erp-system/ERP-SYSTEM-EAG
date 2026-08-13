@@ -6,12 +6,14 @@ const { authorize } = require('../middleware/roleMiddleware');
 
 router.use(protect);
 
-router.post('/generate', payrollController.generatePayroll);
+router.post('/generate', authorize('ADMIN', 'HR'), payrollController.generatePayroll);
 
-router.get('/my-payslip', payrollController.getMyPayslip);
+router.get('/my-payslip', authorize('ADMIN', 'HR'), payrollController.getMyPayslip);
 
-router.patch('/batch/:id/approve', payrollController.approvePayrollBatch);
+// router.get('/my-payslip', payrollController.getMyPayslip);
 
-router.patch('/batch/:id/pay', payrollController.payPayrollBatch);
+router.patch('/batch/:id/approve', authorize('ADMIN', 'HR'), payrollController.approvePayrollBatch);
+
+router.patch('/batch/:id/pay', authorize('ADMIN', 'HR'), payrollController.payPayrollBatch);
 
 module.exports = router;

@@ -8,11 +8,11 @@ router.use(protect);
 
 router.get('/my-attendance', attendanceController.getMyAttendance);
 
-router.post('/mark', attendanceController.markAttendance);
-router.get('/daily-report', attendanceController.getDailyReport);
+router.post('/mark', authorize('ADMIN', 'HR'), attendanceController.markAttendance);
+router.get('/daily-report', authorize('ADMIN', 'HR'), attendanceController.getDailyReport);
 
 router.get('/my-stats', attendanceController.getMyAttendanceStats);
 
-router.get('/monthly-summary', attendanceController.getAllMonthlyStats);
+router.get('/monthly-summary', authorize('ADMIN', 'HR'), attendanceController.getAllMonthlyStats);
 
 module.exports = router;
