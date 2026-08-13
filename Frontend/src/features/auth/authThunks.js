@@ -16,7 +16,7 @@ export const login = createAsyncThunk(
 );
 
 export const fetchMe = createAsyncThunk(
-  "auth/fetchMe",
+  "auth/me",
   async (_, { rejectWithValue }) => {
     try {
       return await fetchMeRequest();
