@@ -2,16 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 import { login, fetchMe } from "./authThunks";
 
 const storage = {
-  getUser: () => JSON.parse(localStorage.getItem("eag_user") || "null"),
-  getToken: () => localStorage.getItem("eag_token"),
+  getUser: () => JSON.parse(localStorage.getItem("user") || "null"),
+  getToken: () => localStorage.getItem("token"),
   setAuth: (user, token) => {
-    localStorage.setItem("eag_token", token);
-    localStorage.setItem("eag_user", JSON.stringify(user));
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
   },
-  setUser: (user) => localStorage.setItem("eag_user", JSON.stringify(user)),
+  setUser: (user) => localStorage.setItem("user", JSON.stringify(user)),
   clearAuth: () => {
-    localStorage.removeItem("eag_token");
-    localStorage.removeItem("eag_user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   }
 };
 
