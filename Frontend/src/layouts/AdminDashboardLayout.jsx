@@ -3,20 +3,13 @@ import DashboardSideBar from "../Pages/DashboardSideBar";
 
 
 function AdminDashboardLayout() {
-    // const dispatch = useDispatch();
-    
-
-    // useEffect(() => {
-    //     dispatch(getMe());
-    // }, [dispatch]);
 
     return (
         <>
         <div className="">
-            {/* <Navbar/> */}
             <div className="flex">
                 <DashboardSideBar variant="main" />
-                <main className="flex-1 min-h-screen w-full bg-slate-50 text-slate-900">
+                <main className="flex-1 min-h-screen w-full bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors">
                     <Outlet />
                 </main>
             </div>

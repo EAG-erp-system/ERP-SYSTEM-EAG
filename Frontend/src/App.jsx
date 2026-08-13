@@ -4,13 +4,23 @@ import { Routes, Route } from "react-router-dom"
 import Login from "./Pages/auth/Login"
 import DashboardSideBar from "./Pages/DashboardSideBar"
 
+// components
+import ProtectedRoute from "./components/ProtectedRoute"
+
+// layout
+import AdminDashboardLayout from "./layouts/AdminDashboardLayout"
+
 function App() {
 
   return ( 
     <>
       <Routes>
         <Route path="/login" element={<Login />}/>
-        <Route path="/dashboard" element={<DashboardSideBar />}/>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<AdminDashboardLayout />}>
+            {/* <Route index element={<DashboardSideBar />}/> */}
+          </Route>
+        </Route>
       </Routes>
     </>
   )
