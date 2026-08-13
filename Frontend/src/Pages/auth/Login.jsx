@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sun, Moon, Sparkles } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../features/auth/authSlice.js";
 
 import MainLogo from "../../assets/MainLogo.png"
 
@@ -13,13 +15,20 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const authLoading = useSelector((state) => state.auth.loading);
 
   const submit = async (e) => {
     e.preventDefault();
     setErr("");
     setLoading(true);
     try {
-      navigate(loc.state?.from || "/dashboard", { replace: true });
+      const result = await dispatch(login({ email, password }));
+      if (login.fulfilled.match(result)) {
+        navigate(loc.state?.from || "/dashboard", { replace: true });
+      } else {
+        setErr(result.payload || "Login failed");
+      }
     } catch (e) {
       setErr(e.response?.data?.message || "Login failed");
     } finally {
