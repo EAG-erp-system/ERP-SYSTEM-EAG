@@ -1,11 +1,15 @@
 
 import { useTheme } from "../context/ThemeContext.jsx";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Feather } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Menu  } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { logout } from "../features/auth/authSlice.js";
+import { fetchMe } from "../features/auth/authThunks.js";
+import { loginRequest, fetchMeRequest } from "../features/auth/authAPI.js"
+import { useDispatch, useSelector } from "react-redux";
 
 import SidebarContent from "../components/SidebarContent.jsx";
 
@@ -14,6 +18,24 @@ const itemRoutes = {
 }
 
 function DashboardSideBar() {
+
+    const dispatch = useDispatch();
+    const authLoading = useSelector((state) => state.auth.loading);
+
+    const user = useSelector(fetchMeRequest);
+    const isAuthenticated = useSelector(loginRequest);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            dispatch(fetchMe());
+        }
+    }, [dispatch, isAuthenticated]);
+
+    const handleLogout = () => {
+        dispatch(logout())
+        navigate("/login")
+    }
+
     const { theme, toggleTheme } = useTheme();
 
     const [isMobileOpen, setIsMobileOpen] = useState(false);
