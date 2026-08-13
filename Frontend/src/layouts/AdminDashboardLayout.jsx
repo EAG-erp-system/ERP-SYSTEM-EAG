@@ -1,8 +1,12 @@
 import { Outlet } from "react-router-dom";
 import DashboardSideBar from "../Pages/DashboardSideBar";
 
+import { useDispatch, useSelector } from "react-redux";
 
 function AdminDashboardLayout() {
+
+    const user = useSelector((state) => state.auth.user);
+    
 
     return (
         <>
@@ -10,7 +14,7 @@ function AdminDashboardLayout() {
             <div className="flex">
                 <DashboardSideBar variant="main" />
                 <main className="flex-1 min-h-screen w-full bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors">
-                    <Outlet />
+                    <Outlet context={{ user }}/>
                 </main>
             </div>
         </div>
