@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Sun, Moon, Sparkles } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../features/auth/authSlice.js";
+import { login } from "../../features/auth/authThunks.js";
+import { selectAuthLoading } from "../../features/auth/authSelectors.js";
 
 import MainLogo from "../../assets/MainLogo.png"
 
