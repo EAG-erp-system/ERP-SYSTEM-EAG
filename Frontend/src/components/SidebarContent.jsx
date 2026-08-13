@@ -27,8 +27,10 @@ function SidebarContent({
     onItemClick,
     activeItem,
     onMobileClose,
+    user,
+    handleLogout
 }) {
-    const fullName = "Admin";
+    const fullName = user?.full_name || "Admin";
     const initials =
         fullName
             .split(" ")
@@ -119,6 +121,7 @@ function SidebarContent({
                             isActive={activeItem === item.id}
                             isOpen={isOpen}
                             onItemClick={onItemClick}
+                            handleLogout={handleLogout}
                     />
                     ))}
                 </div>

@@ -8,7 +8,6 @@ import { Menu  } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../features/auth/authSlice.js";
 import { fetchMe } from "../features/auth/authThunks.js";
-import { loginRequest, fetchMeRequest } from "../features/auth/authAPI.js"
 import { useDispatch, useSelector } from "react-redux";
 
 import SidebarContent from "../components/SidebarContent.jsx";
@@ -20,16 +19,16 @@ const itemRoutes = {
 function DashboardSideBar() {
 
     const dispatch = useDispatch();
+
+    const user = useSelector((state) => state.auth.user);
+    const isAuthenticated = useSelector((state) => !!state.auth.token);
     const authLoading = useSelector((state) => state.auth.loading);
 
-    const user = useSelector(fetchMeRequest);
-    const isAuthenticated = useSelector(loginRequest);
-
     useEffect(() => {
-        if (isAuthenticated) {
+        if (isAuthenticated && !user) {
             dispatch(fetchMe());
         }
-    }, [dispatch, isAuthenticated]);
+    }, [dispatch, isAuthenticated, user]);
 
     const handleLogout = () => {
         dispatch(logout())
@@ -47,6 +46,10 @@ function DashboardSideBar() {
     const activeItem = Object.entries(itemRoutes).find(([, path]) => path === location.pathname)?.[0] ?? "";
 
     const handleItemClick = (itemId) => {
+        if (itemId === "logout") {
+            handleLogout();
+            return;
+        }
         const route = itemRoutes[itemId];
         if (route) {
             navigate(route);
@@ -83,6 +86,8 @@ function DashboardSideBar() {
                         activeItem={activeItem}
                         onItemClick={handleItemClick}
                         onCollapseToggle={() => setIsOpen((prev) => !prev)}
+                        handleLogout={handleLogout}
+                        user={user}
                     />
                 </div>
 
@@ -101,7 +106,9 @@ function DashboardSideBar() {
                             onMobileClose={() => setIsMobileOpen(false)}
                             mobile
                             setIsMobileOpen={setIsMobileOpen}
-                            />
+                            handleLogout={handleLogout}
+                            user={user}
+                        />
                     </div>
 
                     <button

@@ -1,8 +1,16 @@
 
 import { Icon } from "lucide-react";
 
-function SidebarItem( { item, isActive, isOpen, onItemClick } ) {
+function SidebarItem( { item, isActive, isOpen, onItemClick, handleLogout } ) {
     const Icon = item.icon;
+
+    const handleClick = () => {
+        if (item.id === "logout" || item.danger) {
+            if (handleLogout) handleLogout();
+        } else {
+            onItemClick(item.id);
+        }
+    };
 
     return (
         <button 
