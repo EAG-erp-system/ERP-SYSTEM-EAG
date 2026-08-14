@@ -13,10 +13,10 @@ function AdminDashboardLayout() {
         <div className="">
             <div className="flex">
                 <DashboardSideBar variant="main" />
-                <main className="flex-1 min-h-screen w-full bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors">
-                    <div className="m-20">
+                <main className="flex-1 min-h-screen w-full bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors">
+                    {/* <div className="m-10"> */}
                         <Outlet context={{ user }}/>
-                    </div>
+                    {/* </div> */}
                 </main>
             </div>
         </div>
