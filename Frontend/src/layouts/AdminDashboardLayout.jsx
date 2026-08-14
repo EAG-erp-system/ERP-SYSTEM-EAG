@@ -14,7 +14,9 @@ function AdminDashboardLayout() {
             <div className="flex">
                 <DashboardSideBar variant="main" />
                 <main className="flex-1 min-h-screen w-full bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors">
-                    <Outlet context={{ user }}/>
+                    <div className="m-20">
+                        <Outlet context={{ user }}/>
+                    </div>
                 </main>
             </div>
         </div>
