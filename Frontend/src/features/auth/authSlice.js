@@ -2,7 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import { login, fetchMe } from "./authThunks";
 
 const storage = {
-  getUser: () => JSON.parse(localStorage.getItem("user") || "null"),
+  getUser: () => {
+    try {
+      const item = localStorage.getItem("user");
+      if (!item || item === "undefined") return null;
+      return JSON.parse(item);
+    } catch {
+      return null;
+    }
+  },
   getToken: () => localStorage.getItem("token"),
   setAuth: (user, token) => {
     localStorage.setItem("token", token);
