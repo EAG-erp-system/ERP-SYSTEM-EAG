@@ -1,13 +1,6 @@
-// 
-
 import axios from "axios";
 
-// Render Environment Variable ካለ እሱን ይጠቀማል፤ ካልኖረ ወደ localhost ይመለሳል
-const API_URL = import.meta.env.VITE_API_URL 
-  ? `${import.meta.env.VITE_API_URL}/api` 
-  : "http://localhost:8000/api";
-
-const api = axios.create({ baseURL: API_URL });
+const api = axios.create({ baseURL: "http://localhost:8000/api" });
 
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
