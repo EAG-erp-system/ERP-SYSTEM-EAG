@@ -4,12 +4,13 @@ const { calculateIncomeTax, calculateTaxableIncome } = require('../utils/payroll
 
 exports.generatePayroll = async (req, res, next) => {
     try {
-        const { month, year } = req.body;
+        const month = Number(req.body.month);
+        const year = Number(req.body.year);
         const processedBy = req.user.id;
 
-        if (!month || !year) {
+        if (!Number.isInteger(month) || month < 1 || month > 12 || !Number.isInteger(year) || year < 2000 || year > 2100) {
             res.status(400);
-            throw new Error('Please provide month and year.');
+            throw new Error('Please provide a valid payroll month (1–12) and year.');
         }
 
         const [existingBatch] = await db.query(
@@ -83,10 +84,39 @@ exports.generatePayroll = async (req, res, next) => {
     }
 };
 
+exports.getPayrollBatches = async (req, res, next) => {
+    try {
+        const batches = await payrollModel.getBatches();
+        res.status(200).json({ success: true, data: batches });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.getPayrollBatch = async (req, res, next) => {
+    try {
+        const batch = await payrollModel.getBatchDetails(req.params.id);
+        if (!batch) {
+            res.status(404);
+            throw new Error('Payroll batch not found.');
+        }
+        res.status(200).json({ success: true, data: batch });
+    } catch (error) {
+        next(error);
+    }
+};
+
 exports.getMyPayslip = async (req, res, next) => {
     try {
         const userId = req.user.id;
-        const { month, year } = req.query;
+        const now = new Date();
+        const month = Number(req.query.month || now.getMonth() + 1);
+        const year = Number(req.query.year || now.getFullYear());
+
+        if (!Number.isInteger(month) || month < 1 || month > 12 || !Number.isInteger(year) || year < 2000 || year > 2100) {
+            res.status(400);
+            throw new Error('Please choose a valid payroll month and year.');
+        }
 
         const [payslip] = await db.query(
             `SELECT p.*, pb.month, pb.year, pb.status AS batch_status
@@ -97,8 +127,9 @@ exports.getMyPayslip = async (req, res, next) => {
         );
 
         if (!payslip.length) {
-            res.status(404);
-            throw new Error('Payslip not found for the requested period.');
+            // A payroll run may legitimately not exist yet.  Returning an empty
+            // result keeps the employee dashboard quiet instead of logging a server error.
+            return res.status(200).json({ success: true, data: null, message: 'No payslip has been generated for this period yet.' });
         }
 
         res.status(200).json({

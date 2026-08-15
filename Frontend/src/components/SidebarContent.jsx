@@ -3,27 +3,12 @@ import SidebarSection from "../components/SidebarSection";
 import SidebarItem from "../components/SidebarItem";
 
 import { menueSections, footerItems } from "../data/SideBarData"
-import {
-    BarChart3,
-    BookOpen,
-    ChevronLeft,
-    ChevronRight,
-    LayoutDashboard,
-    LogOut,
-    Menu,
-    Package,
-    Settings,
-    Users,
-    Video,
-    X,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 function SidebarContent({
-    isMobileOpen,
     mobile,
     onCollapseToggle,
     isOpen,
-    setIsMobileOpen,
     onItemClick,
     activeItem,
     onMobileClose,
@@ -102,7 +87,7 @@ function SidebarContent({
                         <SidebarSection
                             key={section.title}
                             title={section.title}
-                            items={section.items}
+                            items={section.items.filter((item) => !["employees", "attendance", "payroll"].includes(item.id) || ["ADMIN", "HR"].includes(String(user?.role).toUpperCase()))}
                             isOpen={isOpen}
                             activeItem={activeItem}
                             onItemClick={onItemClick}
@@ -141,7 +126,7 @@ function SidebarContent({
                                 {fullName}
                             </p>
                             <p className="truncate text-xs text-slate-500 dark:text-slate-400">
-                                Administrator
+                                {String(user?.role || "EMPLOYEE").replaceAll("_", " ")}
                             </p>
                         </div>
                     )}

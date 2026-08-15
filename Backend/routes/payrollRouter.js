@@ -8,9 +8,9 @@ router.use(protect);
 
 router.post('/generate', authorize('ADMIN', 'HR'), payrollController.generatePayroll);
 
-router.get('/my-payslip', authorize('ADMIN', 'HR'), payrollController.getMyPayslip);
-
-// router.get('/my-payslip', payrollController.getMyPayslip);
+router.get('/batches', authorize('ADMIN', 'HR'), payrollController.getPayrollBatches);
+router.get('/batch/:id', authorize('ADMIN', 'HR'), payrollController.getPayrollBatch);
+router.get('/my-payslip', payrollController.getMyPayslip);
 
 router.patch('/batch/:id/approve', authorize('ADMIN', 'HR'), payrollController.approvePayrollBatch);
 

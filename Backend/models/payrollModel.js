@@ -53,6 +53,17 @@ exports.updateBatchTotals = async (batchId) => {
     );
 };
 
+exports.getBatches = async () => {
+    const [batches] = await db.query(
+        `SELECT pb.*, (
+            SELECT COUNT(*) FROM payrolls p WHERE p.payroll_batch_id = pb.id
+         ) AS employee_count
+         FROM payroll_batches pb
+         ORDER BY pb.year DESC, pb.month DESC, pb.id DESC`
+    );
+    return batches;
+};
+
 exports.getBatchDetails = async (batchId) => {
     const [batch] = await db.query(`SELECT * FROM payroll_batches WHERE id = ?`, [batchId]);
     if (!batch.length) return null;

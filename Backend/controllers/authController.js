@@ -2,9 +2,9 @@ const employee = require('../models/employer');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const generateToken = (id) => {
+const generateToken = (id, role) => {
     return jwt.sign(
-        { id },
+        { id, role },
         process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
     );
@@ -26,7 +26,7 @@ exports.registerEmployee = async (req, res, next) => {
         hire_date 
     } = req.body;
 
-    if (!full_name || !email || !password || !department, !bank_name || !account_number || !hire_date) {
+    if (!full_name || !email || !password || !department || !bank_name || !account_number || !hire_date) {
         res.status(400);
         throw new Error("Require all data")
     }
@@ -54,7 +54,7 @@ exports.registerEmployee = async (req, res, next) => {
         hire_date
     });
 
-    const token = generateToken(employeeId);
+    const token = generateToken(employeeId, role || 'EMPLOYEE');
 
     res.status(201).json({
         success: true,
@@ -94,7 +94,7 @@ exports.login = async (req, res, next) => {
             throw new Error("Invalid email or password");
         }
 
-        const token = generateToken(user.id);
+        const token = generateToken(user.id, user.role);
 
         res.status(200).json({
             success: true,
@@ -103,7 +103,8 @@ exports.login = async (req, res, next) => {
             user: {
                 id: user.id,
                 full_name: user.full_name,
-                email: user.email
+                email: user.email,
+                role: user.role
             }
         })
     } catch (error) {
