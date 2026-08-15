@@ -1,9 +1,8 @@
 
 import { useTheme } from "../context/ThemeContext.jsx";
-import { Sun, Moon, Feather } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { Menu  } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { logout } from "../features/auth/authSlice.js";
@@ -14,6 +13,11 @@ import SidebarContent from "../components/SidebarContent.jsx";
 
 const itemRoutes = {
     "dashboard": "/dashboard",
+    "personal": "/dashboard/personal",
+    "attendance": "/attendance",
+    "payroll": "/payroll",
+    "employees": "/employees",
+    "payslip": "/dashboard/payslip",
 }
 
 function DashboardSideBar() {
@@ -22,10 +26,9 @@ function DashboardSideBar() {
 
     const user = useSelector((state) => state.auth.user);
     const isAuthenticated = useSelector((state) => !!state.auth.token);
-    const authLoading = useSelector((state) => state.auth.loading);
 
     useEffect(() => {
-        if (isAuthenticated && !user) {
+        if (isAuthenticated && (!user || !user.role)) {
             dispatch(fetchMe());
         }
     }, [dispatch, isAuthenticated, user]);
@@ -59,7 +62,7 @@ function DashboardSideBar() {
     return (
         <>
             <div className="min-h-screen bg-[#f4f7fa] dark:bg-[#060b14] text-ink-900 dark:text-slate-100 transition-colors duration-300">
-                <button
+                {/* <button
                     onClick={toggleTheme}
                     type="button"
                     className="fixed top-4 right-4 p-2.5 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-black/10 dark:border-white/10 backdrop-blur-md text-ink-800 dark:text-slate-200 hover:opacity-80 active:scale-95 transition-all shadow-sm"
@@ -70,7 +73,7 @@ function DashboardSideBar() {
                     ) : (
                         <Moon size={18} className="text-brand-500" />
                     )}
-                </button>
+                </button> */}
 
                 <button 
                     type="button"

@@ -41,11 +41,11 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        const { user, token } = action.payload;
+        const { token, user, employee } = action.payload;
         state.loading = false;
-        state.user = user;
+        state.user = user || employee;
         state.token = token;
-        storage.setAuth(user, token);
+        storage.setAuth(user || employee, token);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -53,11 +53,18 @@ const authSlice = createSlice({
       })
       
       // FetchMe Lifecycle
+      .addCase(fetchMe.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(fetchMe.fulfilled, (state, action) => {
+        state.loading = false;
         state.user = action.payload;
         storage.setUser(action.payload);
       })
-      .addCase(fetchMe.rejected, (state) => {
+      .addCase(fetchMe.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
         state.user = null;
         state.token = null;
         storage.clearAuth();

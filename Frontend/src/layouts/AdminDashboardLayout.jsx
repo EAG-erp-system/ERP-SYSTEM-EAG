@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import DashboardSideBar from "../Pages/DashboardSideBar";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function AdminDashboardLayout() {
 
@@ -10,10 +10,10 @@ function AdminDashboardLayout() {
 
     return (
         <>
-        <div className="">
-            <div className="flex">
+        <div className="min-h-dvh bg-slate-50 dark:bg-slate-900">
+            <div className="flex min-h-dvh">
                 <DashboardSideBar variant="main" />
-                <main className="flex-1 min-h-screen w-full bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors">
+                <main className="min-h-dvh w-full flex-1 bg-slate-50 text-slate-900 transition-colors dark:bg-slate-900 dark:text-slate-100">
                     {/* <div className="m-10"> */}
                         <Outlet context={{ user }}/>
                     {/* </div> */}

@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Sun, Moon, Sparkles } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../../features/auth/authThunks.js";
-import { selectAuthLoading } from "../../features/auth/authSelectors.js";
 
 import MainLogo from "../../assets/MainLogo.png"
 
@@ -17,7 +16,6 @@ export default function Login() {
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const authLoading = useSelector((state) => state.auth.loading);
 
   const submit = async (e) => {
     e.preventDefault();

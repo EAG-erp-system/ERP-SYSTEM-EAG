@@ -6,13 +6,15 @@ export const menueSections = [
         title: "MAIN",
         items: [
             { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-            { id: "employers", label: "Employers ", icon: Users },
-            { id: "analytics", label: "Analytics", icon: BarChart3 },  
+            { id: "employees", label: "Employees", icon: Users },
+            { id: "attendance", label: "Attendance", icon: BarChart3 },
+            { id: "payroll", label: "Payroll", icon: Settings },
+            { id: "personal", label: "My dashboard", icon: LayoutDashboard },
+            { id: "payslip", label: "My payslip", icon: BarChart3 },
         ],
     },
 ];
 
 export const footerItems = [
-    { id: "settings", label: "Settings", icon: Settings },
     { id: "logout", label: "Logout", icon: LogOut, danger: true },
 ];

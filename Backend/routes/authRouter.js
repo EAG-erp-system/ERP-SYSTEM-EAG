@@ -11,7 +11,7 @@ router.post('/register', protect, authorize('ADMIN', 'HR'), employeeController.r
 router.post('/login', employeeController.login);
 
 router.get('/me', protect, employeeController.getMe);
-router.put('updateMe', protect, employeeController.updateProfile);
+router.put('/updateMe', protect, employeeController.updateProfile);
 router.put('/employees/:id', protect, authorize('ADMIN', 'HR'), employeeController.updateEmployeeByAdmin);
 
 module.exports = router;

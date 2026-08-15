@@ -37,6 +37,9 @@ exports.getDailyAttendanceSummary = async (date) => {
             e.id AS employee_id,
             e.full_name,
             e.department,
+            e.basic_salary,
+            e.transport_allowance,
+            e.mobil_card_allowance,
             a.date,
             a.status
         FROM employees e
@@ -86,6 +89,9 @@ exports.getAllEmployeesMonthlyStats = async (year, month) => {
             e.id AS employee_id,
             e.full_name,
             e.department,
+            e.basic_salary,
+            e.transport_allowance,
+            e.mobil_card_allowance,
             COALESCE(COUNT(CASE WHEN a.status = 'PRESENT' THEN 1 END), 0) AS present_count,
             COALESCE(COUNT(CASE WHEN a.status = 'ABSENT' THEN 1 END), 0) AS absent_count,
             COALESCE(COUNT(CASE WHEN a.status = 'LATE' THEN 1 END), 0) AS late_count,
@@ -97,7 +103,7 @@ exports.getAllEmployeesMonthlyStats = async (year, month) => {
             ON e.id = a.employee_id 
             AND YEAR(a.date) = ? 
             AND MONTH(a.date) = ?
-        GROUP BY e.id, e.full_name, e.department
+        GROUP BY e.id, e.full_name, e.department, e.basic_salary, e.transport_allowance, e.mobil_card_allowance
         ORDER BY e.full_name ASC`,
         [year, month]
     );
