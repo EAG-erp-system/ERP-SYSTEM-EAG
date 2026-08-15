@@ -1,7 +1,4 @@
 
-import { useTheme } from "../context/ThemeContext.jsx";
-import { Sun, Moon } from "lucide-react";
-
 import { useEffect, useState } from "react";
 import { Menu  } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -38,8 +35,6 @@ function DashboardSideBar() {
         navigate("/login")
     }
 
-    const { theme, toggleTheme } = useTheme();
-
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
 
@@ -61,7 +56,7 @@ function DashboardSideBar() {
     }
     return (
         <>
-            <div className="min-h-screen bg-[#f4f7fa] dark:bg-[#060b14] text-ink-900 dark:text-slate-100 transition-colors duration-300">
+            <div className="flex min-h-dvh self-stretch bg-[#f4f7fa] text-ink-900 transition-colors duration-300 dark:bg-[#060b14] dark:text-slate-100 print:hidden">
                 {/* <button
                     onClick={toggleTheme}
                     type="button"
@@ -83,7 +78,7 @@ function DashboardSideBar() {
                     <Menu size={18} />
                 </button>
 
-                <div className="hidden md:block h-screen">
+                <div className="hidden min-h-dvh flex-1 self-stretch md:flex">
                     <SidebarContent 
                         isOpen={isOpen} 
                         activeItem={activeItem}

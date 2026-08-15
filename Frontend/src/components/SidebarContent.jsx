@@ -26,7 +26,7 @@ function SidebarContent({
 
     return (
         <aside
-            className={`relative flex h-full flex-col overflow-hidden border-r border-slate-200 bg-white dark:bg-slate-800/80 dark:border-white/10 text-slate-900 dark:text-slate-100 shadow-[0_20px_60px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out ${
+            className={`relative flex h-full min-h-dvh flex-1 flex-col overflow-hidden border-r border-slate-200 bg-white dark:bg-slate-800/80 dark:border-white/10 text-slate-900 dark:text-slate-100 shadow-[0_20px_60px_rgba(0,0,0,0.05)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out ${
                 isOpen ? "w-72" : "w-24"
             }`}
         >

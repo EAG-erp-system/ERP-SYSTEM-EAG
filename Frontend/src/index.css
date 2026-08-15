@@ -89,3 +89,8 @@
         font-style: normal;
     }
 }
+
+@media print {
+  @page { margin: 12mm; size: landscape; }
+  body { background: white !important; }
+}
