@@ -9,6 +9,8 @@ const makeThunk = (type, request) => createAsyncThunk(type, async (payload, { re
 export const generatePayroll = makeThunk("payroll/generate", createPayrollBatch);
 export const approvePayroll = makeThunk("payroll/approve", approvePayrollBatch);
 export const payPayroll = makeThunk("payroll/pay", payPayrollBatch);
+// Semantic alias used by the approved-payroll disbursement workflow.
+export const payBatch = makeThunk("payroll/payBatch", payPayrollBatch);
 export const fetchMyPayslip = makeThunk("payroll/fetchMyPayslip", getMyPayslip);
 export const fetchPayrollBatches = makeThunk("payroll/fetchBatches", getPayrollBatches);
 export const fetchPayrollBatch = makeThunk("payroll/fetchBatch", getPayrollBatch);

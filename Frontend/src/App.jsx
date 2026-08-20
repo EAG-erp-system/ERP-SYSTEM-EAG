@@ -11,6 +11,7 @@ import PayrollManagement from "./Pages/PayrollManagement"
 import EmployeeManagement from "./Pages/EmployeeManagement"
 import EmployeeDashboard from "./Pages/EmployeeDashboard"
 import PayslipView from "./Pages/PayslipView"
+import ApprovedPayrollsPage from "./Pages/ApprovedPayrollsPage"
 
 // layout
 import AdminDashboardLayout from "./layouts/AdminDashboardLayout"
@@ -30,7 +31,7 @@ function App() {
           </Route>
           <Route element={<ProtectedRoute allowedRoles={["ADMIN", "HR"]} />}>
             <Route path="/attendance" element={<AdminDashboardLayout />}><Route index element={<AttendanceGrid />}/></Route>
-            <Route path="/payroll" element={<AdminDashboardLayout />}><Route index element={<PayrollManagement />}/></Route>
+            <Route path="/payroll" element={<AdminDashboardLayout />}><Route index element={<PayrollManagement />}/><Route path="approved" element={<ApprovedPayrollsPage />}/></Route>
             <Route path="/employees" element={<AdminDashboardLayout />}><Route index element={<EmployeeManagement />}/></Route>
           </Route>
         </Route>
