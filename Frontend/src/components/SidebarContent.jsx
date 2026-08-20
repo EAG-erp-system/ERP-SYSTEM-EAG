@@ -87,7 +87,7 @@ function SidebarContent({
                         <SidebarSection
                             key={section.title}
                             title={section.title}
-                            items={section.items.filter((item) => !["employees", "attendance", "payroll"].includes(item.id) || ["ADMIN", "HR"].includes(String(user?.role).toUpperCase()))}
+                            items={section.items.filter((item) => !["employees", "attendance", "payroll", "approved-payrolls"].includes(item.id) || ["ADMIN", "HR"].includes(String(user?.role).toUpperCase()))}
                             isOpen={isOpen}
                             activeItem={activeItem}
                             onItemClick={onItemClick}

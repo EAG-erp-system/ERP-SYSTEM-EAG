@@ -13,6 +13,7 @@ const itemRoutes = {
     "personal": "/dashboard/personal",
     "attendance": "/attendance",
     "payroll": "/payroll",
+    "approved-payrolls": "/payroll/approved",
     "employees": "/employees",
     "payslip": "/dashboard/payslip",
 }
