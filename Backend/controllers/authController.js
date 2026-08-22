@@ -12,66 +12,80 @@ const generateToken = (id, role) => {
 
 exports.registerEmployee = async (req, res, next) => {
     try {
-        const { 
-        full_name, 
-        email, 
-        password, 
-        department,
-        role,
-        basic_salary,
-        transport_allowance,
-        mobil_card_allowance,
-        bank_name, 
-        account_number, 
-        hire_date 
-    } = req.body;
-
-    if (!full_name || !email || !password || !department || !bank_name || !account_number || !hire_date) {
-        res.status(400);
-        throw new Error("Require all data")
-    }
-
-    const existingEmployee = await employee.findEmployeeByEmail(email);
-    if (existingEmployee) {
-        res.status(400);
-        throw new Error("Email already registered")
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const employeeId = await employee.createEmployee({
-        full_name,
-        email,
-        password: hashedPassword,
-        department,
-        role,
-        basic_salary,
-        transport_allowance,
-        mobil_card_allowance,
-        bank_name,
-        account_number,
-        hire_date
-    });
-
-    const token = generateToken(employeeId, role || 'EMPLOYEE');
-
-    res.status(201).json({
-        success: true,
-        message: "Employee successfully registered",
-        token,
-        employee: {
-            id: employeeId,
+        const {
             full_name,
             email,
+            password,
             department,
-            role
+            role,
+            basic_salary,
+            transport_allowance,
+            mobil_card_allowance,
+            bank_name,
+            account_number,
+            hire_date
+        } = req.body;
+
+        if ( !full_name || !email || !password || !department || !bank_name || !account_number || !hire_date) {
+            res.status(400);
+            throw new Error("Please provide all required fields");
         }
-    })
+
+        const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+
+        if (!strongPassword.test(password)) {
+            res.status(400);
+            throw new Error(
+                "Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+            );
+        }
+
+        const existingEmployee = await employee.findEmployeeByEmail(email);
+
+        if (existingEmployee) {
+            res.status(400);
+            throw new Error("Email already registered");
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const employeeId = await employee.createEmployee({
+            full_name,
+            email,
+            password: hashedPassword,
+            department,
+            role,
+            basic_salary,
+            transport_allowance,
+            mobil_card_allowance,
+            bank_name,
+            account_number,
+            hire_date
+        });
+
+        const token = generateToken(
+            employeeId,
+            role || "EMPLOYEE"
+        );
+
+        res.status(201).json({
+            success: true,
+            message: "Employee successfully registered",
+            token,
+            employee: {
+                id: employeeId,
+                full_name,
+                email,
+                department,
+                role: role || "EMPLOYEE"
+            }
+        });
+
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
 
 exports.login = async (req, res, next) => {
     try {
